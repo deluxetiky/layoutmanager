@@ -10,3 +10,7 @@
 .main-view{
     height: 50px;
 }
+
+.selectedUi{
+    border: solid 2px red;
+}
