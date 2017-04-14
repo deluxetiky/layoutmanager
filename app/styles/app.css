@@ -8,9 +8,17 @@
 }
 
 .main-view{
-    height: 50px;
+    min-height: 50px;
+    border: solid 2px black;
 }
 
+
+
+.added-component{
+     border: solid 2px grey;
+     padding: 20px;
+     min-height: 50px;
+}
 .selectedUi{
     border: solid 2px red;
 }
