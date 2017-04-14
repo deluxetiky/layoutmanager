@@ -1,0 +1,6 @@
+{
+  "name": "dynamicontent",
+  "dependencies": {
+    "handlebars": "^4.0.5"
+  }
+}
