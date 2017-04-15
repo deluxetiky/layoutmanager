@@ -9,14 +9,17 @@
 
 .main-view{
     min-height: 50px;
-    border: solid 2px black;
+    border: solid 2px grey;
+    border-radius:5px; ;
+    padding: 10px;
+    margin: 10px;
 }
 
 
 
 .added-component{
-     border: solid 2px grey;
-     padding: 20px;
+    
+     padding: 10px;
      min-height: 50px;
 }
 .selectedUi{

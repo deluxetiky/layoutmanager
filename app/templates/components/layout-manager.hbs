@@ -6,16 +6,15 @@
     {{input value=current.size}}
      <span>Modul Adı</span>
     {{input value=current.name}}
+    <span>Satır Olarak Ekle</span>
+    {{input type="checkbox" name="isRow" checked=current.isRow}}
     <button {{action 'addToView'}} >Seçili Alana Ekle</button>
 </div>
 
-<div class="panel panel-default view-inner">
-    <div class="panel-body">
-     
-        <div class="main-view row">
+    
+        <div class="main-view added-component row">
 
         </div>
         
-    </div>
-</div>
+
 </div>

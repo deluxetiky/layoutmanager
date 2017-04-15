@@ -8,29 +8,25 @@ export default Ember.Component.extend({
   didInsertElement() {
     this._super(...arguments);
     var mainview = $(".layout-wrapper .main-view").first();
+    this.set('lastSelectedElement',mainview);
     var lastSel = $(this.get('lastSelectedElement'));
     console.log(mainview);
     mainview.click((e) => {
       let target = $(e.target);
-      console.log('Tıklandı');
-     
+      $('.layout-wrapper .added-component').removeClass('selectedUi');//clear other selectedUi class
       this.toggleAppereance(target);      
-      console.log(target.children().find('.added-component').length);
+      console.log(target.find('.added-component').length);
       this.set('lastSelectedElement', target);
     });
   },
-  toggleAppereance(target) {
-    console.log('AppUpdate');
-    console.log(target);
+  toggleAppereance(target) {   
     $(target).toggleClass('selectedUi');
   },
   actions: {
     addToView() {
       let sel = $(this.get('lastSelectedElement'));
       let cur = this.get('current');
-      
-      console.log(sel.length);      
-      sel.append('<div class="col-sm-' + cur.size + ' added-component"><div>')
+      sel.append('<div class="col-sm-' + cur.size + ' panel panel-default added-component"><div>')
     }
   }
 });
