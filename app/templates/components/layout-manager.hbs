@@ -8,6 +8,11 @@
     {{input value=current.name}}
     <span>Satır Olarak Ekle</span>
     {{input type="checkbox" name="isRow" checked=current.isRow}}
+    {{#if current.isRow}}
+        <span>Geniş İçerik Olarak Ekle(Fluid)</span>
+    {{input type="checkbox" name="isFluid" checked=current.isFluid}}
+    {{/if}}
+    
     <button {{action 'addToView'}} >Seçili Alana Ekle</button>
 </div>
 

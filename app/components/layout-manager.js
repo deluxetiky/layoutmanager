@@ -19,14 +19,25 @@ export default Ember.Component.extend({
       this.set('lastSelectedElement', target);
     });
   },
-  toggleAppereance(target) {   
+  toggleAppereance(target) {  
+     
     $(target).toggleClass('selectedUi');
   },
   actions: {
     addToView() {
       let sel = $(this.get('lastSelectedElement'));
       let cur = this.get('current');
-      sel.append('<div class="col-sm-' + cur.size + ' panel panel-default added-component"><div>')
+      let toBeAdded = $('<div class="col-sm-' + cur.size + ' panel panel-default added-component"></div>');
+      if(cur.isRow)
+      {
+        var row = $('<div></div>').addClass('row panel panel-default added-component');
+        if(cur.isFluid)
+        row.addClass('rowfluid');
+        sel.append(row);
+        
+      }else
+      sel.append(toBeAdded);
+      
     }
   }
 });
