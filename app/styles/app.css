@@ -21,6 +21,12 @@
     
      padding: 20px;
      min-height: 50px;
+     position: relative;
+}
+
+.close-component{
+    position: absolute;
+    margin: -18px;
 }
 .selectedUi{
     border: solid 2px red;
