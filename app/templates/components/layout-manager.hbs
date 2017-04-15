@@ -1,25 +1,27 @@
 <div class="view-outer">
 
 
-<div class="layout-controllers">
-    <span>Size</span>
-    {{input value=current.size}}
-     <span>Modul Adı</span>
-    {{input value=current.name}}
-    <span>Satır Olarak Ekle</span>
-    {{input type="checkbox" name="isRow" checked=current.isRow}}
-    {{#if current.isRow}}
-        <span>Geniş İçerik Olarak Ekle(Fluid)</span>
-    {{input type="checkbox" name="isFluid" checked=current.isFluid}}
-    {{/if}}
-    
-    <button {{action 'addToView'}} >Seçili Alana Ekle</button>
-</div>
+    <div class="layout-controllers">
+        <span>Size</span> {{input value=current.size}}
+        <span>Modul Adı</span> {{input value=current.name}}
+        <span>Satır Olarak Ekle</span> {{input type="checkbox" name="isRow" checked=current.isRow}} {{#if current.isRow}}
+        <span>Geniş İçerik Olarak Ekle(Fluid)</span> {{input type="checkbox" name="isFluid" checked=current.isFluid}} {{/if}}
+        <button {{action 'addToView'}}>Seçili Alana Ekle</button>
+        {{#power-select
+  options=modules
+  renderInPlace=true
+  selected=selectedModule
+  onchange=(action (mut selectedModule))
+  as |selectedModule|
+}}
+  {{selectedModule.moduleName}}
+{{/power-select}}
+    </div>
 
-    
-        <div class="main-view added-component row">
 
-        </div>
-        
+    <div class="main-view added-component row">
+
+    </div>
+
 
 </div>

@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   propertyA: 'layout-wrapper',
   lastSelectedElement: {},
   current: {},
+
   didInsertElement() {
     this._super(...arguments);
     var mainview = $(".layout-wrapper .main-view").first();
