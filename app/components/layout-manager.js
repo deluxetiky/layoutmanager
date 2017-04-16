@@ -73,43 +73,41 @@ export default Ember.Component.extend({
 
   },
   updateHtmlContent() {
-    var dupLication = $('.main-view').clone();  
-   
+    var dupLication = $('.main-view').clone();
+
     var closeComps = dupLication.find('.added-component > .close-component');
-    closeComps.each((index,val)=>{
+    closeComps.each((index, val) => {
       $(val).remove();
     });
-    dupLication.find('div.row').each((index,val)=>{
-        $(val).removeClass('row').addClass('rowfluid');
-      });
+    dupLication.find('div.row').each((index, val) => {
+      $(val).removeClass('row').addClass('rowfluid');
+    });
     var allDivs = dupLication.find('div');
-    allDivs.each((index,val)=>{
+    allDivs.each((index, val) => {
       $(val).removeClass('panel panel-default asrow selectedUi added-component added-module component-hover');
+      $(val).attr('class', $(val).attr('class').replace(/\bcol-sm--*?\b/g, 'span')); //span in my theme     
 
-      $(val).attr('class',$(val).attr('class').replace(/\bcol-sm--*?\b/g, 'span'));//span in my theme 
-      
-      
-      
+
     });
     let beautifyContent = jsbeautifier.html(dupLication.html(), {
-        "indent_size": 4,
-        "html": {
-          "end_with_newline": true,
-          "js": {
-            "indent_size": 2
-          },
-          "css": {
-            "indent_size": 2
-          }
+      "indent_size": 4,
+      "html": {
+        "end_with_newline": true,
+        "js": {
+          "indent_size": 2
+        },
+        "css": {
+          "indent_size": 2
         }
-      });
+      }
+    });
     this.set('htmlContent', beautifyContent);
-    
+
     hljs.configure({
       useBR: true
     });
     let htmlArea = $('.code');
-    htmlArea.each((i, block) => {     
+    htmlArea.each((i, block) => {
       hljs.highlightBlock(block);
     });
   },
@@ -117,7 +115,7 @@ export default Ember.Component.extend({
     addToView() {
       let sel = $(this.get('lastSelectedElement'));
       let cur = this.get('current');
-      let toBeAdded = $('<div class="col-sm-' + cur.size + ' panel panel-default added-component"></div>');     
+      let toBeAdded = $('<div class="col-sm-' + cur.size + ' panel panel-default added-component"></div>');
       let closeBar = $('<div><i class="fa fa-times"></i></div>').addClass('close-component hidden');
       let hoverIn = function () {
         $(this).addClass('component-hover');
@@ -136,9 +134,12 @@ export default Ember.Component.extend({
         row.hover(hoverIn, hoverOut);
         if (cur.isFluid) {
           row.addClass('rowfluid');
+          let containerFluid = $('<div></div>').addClass('container-fluid');
+          containerFluid.append(row);
+          this.appendToLayout(containerFluid, sel);
+        } else {
+          this.appendToLayout(row, sel);
         }
-        this.appendToLayout(row, sel);
-
       } else {
         this.appendToLayout(toBeAdded, sel);
       }
