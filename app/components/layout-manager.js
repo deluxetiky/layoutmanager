@@ -26,13 +26,15 @@ export default Ember.Component.extend({
     }
   },
   appendToLayout(toBeAdded,view){
-    let len = view.find('.added-module').length;    
+    console.log(view);
+    let len = view.children('div .added-module').length;    
     if(len>0){
       console.log('Modul seviyesinde katman eklenemez.');
     }else{
       view.append(toBeAdded);
     }
   },
+
   actions: {
     addToView() {
       let sel = $(this.get('lastSelectedElement'));
@@ -72,7 +74,7 @@ export default Ember.Component.extend({
         this.appendToLayout(toBeAdded,sel);
       }
     },
-    addModuleToLayout(){
+      addModuleToLayout(){
       let sel = $(this.get('lastSelectedElement'));
       let countLayout = sel.find('.added-component').length;
       let countModule = sel.find('.added-module').length;
@@ -85,9 +87,11 @@ export default Ember.Component.extend({
         console.log('Lütfen en az bir katman ekleyin');
       }    
       else{
-        let component = $('<div><div>').attr('moduleId',this.get('selectedModule.id')).addClass('added-module').html(this.get('selectedModule.moduleName'));
-        sel.append(component);
+        let module = $('<div><div>').attr('moduleId',this.get('selectedModule.id')).addClass('added-module').html(this.get('selectedModule.moduleName'));
+        sel.append(module);
+        this.get('modules').removeObject(this.get('selectedModule'));
+        this.set('selectedModule',this.get('modules')[0])
       }
-    }
+    },
   }
 });
