@@ -7,13 +7,7 @@
     margin-top:20px;
 }
 
-.main-view{
-    min-height: 50px;
-    border: solid 2px grey;
-    border-radius:5px; ;
-    padding: 30px;
-    margin: 10px;
-}
+
 
 
 
@@ -24,7 +18,13 @@
      position: relative;
      
 }
-
+.main-view{
+    min-height: 50px;
+    border: solid 2px grey;
+    border-radius:5px; ;
+    padding: 30px;
+    margin: 10px;
+}
 .added-module{
    text-align: center;
     font-weight: bolder;    
