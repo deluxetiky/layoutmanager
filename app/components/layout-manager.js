@@ -25,6 +25,14 @@ export default Ember.Component.extend({
       $(target).toggleClass('selectedUi');
     }
   },
+  appendToLayout(toBeAdded,view){
+    let len = view.find('.added-module').length;    
+    if(len>0){
+      console.log('Modul seviyesinde katman eklenemez.');
+    }else{
+      view.append(toBeAdded);
+    }
+  },
   actions: {
     addToView() {
       let sel = $(this.get('lastSelectedElement'));
@@ -44,7 +52,11 @@ export default Ember.Component.extend({
         //   console.log('Kapat');
         let parants = $(e.target).parents();
         parants.eq(2).toggleClass('selectedUi');
-        parants.eq(1).remove();
+        let toBeRemoved =  parants.eq(1);
+        if(!toBeRemoved.hasClass('main-view')){
+          toBeRemoved.remove();
+        }
+       
       });
       toBeAdded.append(closeBar);
       if (cur.isRow) {
@@ -54,12 +66,28 @@ export default Ember.Component.extend({
         if (cur.isFluid) {
           row.addClass('rowfluid');
         }
-        sel.append(row);
+        this.appendToLayout(row,sel);
 
       } else {
-        sel.append(toBeAdded);
+        this.appendToLayout(toBeAdded,sel);
       }
-
+    },
+    addModuleToLayout(){
+      let sel = $(this.get('lastSelectedElement'));
+      let countLayout = sel.find('.added-component').length;
+      let countModule = sel.find('.added-module').length;
+      console.log(countLayout);
+      if(countLayout>0){
+        console.log('Ara katman üzerine ekleme yapılamaz.');
+      }else if(countModule>0){
+        console.log('Bir katmana en fazla bir modul eklenebilir.');
+      }else if(sel.hasClass('main-view')){
+        console.log('Lütfen en az bir katman ekleyin');
+      }    
+      else{
+        let component = $('<div><div>').attr('moduleId',this.get('selectedModule.id')).addClass('added-module').html(this.get('selectedModule.moduleName'));
+        sel.append(component);
+      }
     }
   }
 });
