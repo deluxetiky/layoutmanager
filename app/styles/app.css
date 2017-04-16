@@ -22,11 +22,20 @@
      padding: 20px;
      min-height: 50px;
      position: relative;
+     
+}
+
+.added-module{
+   text-align: center;
+    font-weight: bolder;    
 }
 
 .close-component{
     position: absolute;
     margin: -18px;
+}
+.asrow{
+    border: solid 2px lightgray;
 }
 .selectedUi{
     border: solid 2px #1ea7e2;
@@ -36,3 +45,6 @@
     box-shadow: 5px 5px 10px grey;
     transform: scale(1.010,1.010);
 }
+
+
+

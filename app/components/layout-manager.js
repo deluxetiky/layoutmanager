@@ -60,7 +60,7 @@ export default Ember.Component.extend({
       });
       toBeAdded.append(closeBar);
       if (cur.isRow) {
-        var row = $('<div></div>').addClass('row panel panel-default added-component');
+        var row = $('<div></div>').addClass('row panel panel-default added-component asrow');
         row.append(closeBar);
         row.hover(hoverIn, hoverOut);
         if (cur.isFluid) {
