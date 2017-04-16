@@ -24,16 +24,18 @@ export default Ember.Component.extend({
   uiSelectionClick(e) {
     let target = $(e.target);
     this.toggleAppereance(target);
-    this.set('lastSelectedElement', target);
+    
   },
   toggleAppereance(target) {
     $('.layout-wrapper .added-component').removeClass('selectedUi'); //clear other selectedUi class
     if (target.hasClass('added-component')) {
       $(target).toggleClass('selectedUi');
+       this.set('lastSelectedElement', target);
     } else {
       let upParent = target.parents().eq(0);
       if (upParent.hasClass('added-component')) {
         upParent.toggleClass('selectedUi');
+        this.set('lastSelectedElement', upParent);
       }
     }
    
