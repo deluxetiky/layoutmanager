@@ -24,13 +24,13 @@ export default Ember.Component.extend({
   uiSelectionClick(e) {
     let target = $(e.target);
     this.toggleAppereance(target);
-    
+
   },
   toggleAppereance(target) {
     $('.layout-wrapper .added-component').removeClass('selectedUi'); //clear other selectedUi class
     if (target.hasClass('added-component')) {
       $(target).toggleClass('selectedUi');
-       this.set('lastSelectedElement', target);
+      this.set('lastSelectedElement', target);
     } else {
       let upParent = target.parents().eq(0);
       if (upParent.hasClass('added-component')) {
@@ -38,10 +38,10 @@ export default Ember.Component.extend({
         this.set('lastSelectedElement', upParent);
       }
     }
-   
+
   },
   appendToLayout(toBeAdded, view) {
-    console.log(view);
+
     let len = view.children('div .added-module').length;
     if (len > 0) {
       console.log('Modul seviyesinde katman eklenemez.');
@@ -49,14 +49,21 @@ export default Ember.Component.extend({
       view.append(toBeAdded);
     }
   },
-  removeLayout(e){
-      let parants = $(e.target).parents();
-        parants.eq(2).toggleClass('selectedUi');
-        let toBeRemoved = parants.eq(1);
-        if (!toBeRemoved.hasClass('main-view')) {
-          toBeRemoved.remove();
-        }
-        
+  removeLayout(e) {
+    let parants = $(e.target).parents();
+    parants.eq(2).toggleClass('selectedUi');
+    let toBeRemoved = parants.eq(1);
+    if (!toBeRemoved.hasClass('main-view')) {
+      let module = toBeRemoved.find('.added-module');
+      toBeRemoved.remove();
+      if (module.length) {
+        module.each((index, val) => {
+          let moduleId = $(val).attr('dommoduleid');
+          this.get('selectedModules').removeObject(this.get('selectedModules').findBy('id', moduleId));
+        })
+      }
+    }
+
   },
   actions: {
     addToView() {
@@ -100,14 +107,17 @@ export default Ember.Component.extend({
       } else if (sel.hasClass('main-view')) {
         console.log('Lütfen en az bir katman ekleyin');
       } else {
-        let module = $('<div><div>')
-        .attr('domModuleId', this.get('selectedModule.id'))
-        .addClass('added-module')
-        .html(this.get('selectedModule.moduleName'));
-        module.click((e) => this.uiSelectionClick(e));
-        sel.append(module);
-        this.get('selectedModules').pushObject(this.get('selectedModule'));
-        this.set('selectedModule', this.get('availableModules')[0]);
+        if (!Ember.isEmpty(this.get('selectedModule'))) {
+          let module = $('<div><div>')
+            .attr('domModuleId', this.get('selectedModule.id'))
+            .addClass('added-module')
+            .html(this.get('selectedModule.moduleName'));
+          module.click((e) => this.uiSelectionClick(e));
+          sel.append(module);
+          this.get('selectedModules').pushObject(this.get('selectedModule'));
+          this.set('selectedModule', this.get('availableModules')[0]);
+        }
+
       }
     },
   }
