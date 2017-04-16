@@ -5,7 +5,15 @@ export default Ember.Component.extend({
   propertyA: 'layout-wrapper',
   lastSelectedElement: {},
   current: {},
-
+  selectedModules:[],
+  availableModules:Ember.computed('selectedModules.[]','modules.[]',function(){
+    let modules = this.get('modules');
+    return modules.filter((val,index)=>{
+      let selModules = this.get('selectedModules');
+      let isAny = selModules.isAny('id',val.id);
+      return !isAny;
+    })
+  }),
   didInsertElement() {
     this._super(...arguments);
     var mainview = $(".layout-wrapper .main-view").first();
@@ -89,8 +97,8 @@ export default Ember.Component.extend({
       else{
         let module = $('<div><div>').attr('moduleId',this.get('selectedModule.id')).addClass('added-module').html(this.get('selectedModule.moduleName'));
         sel.append(module);
-        this.get('modules').removeObject(this.get('selectedModule'));
-        this.set('selectedModule',this.get('modules')[0])
+        this.get('selectedModules').pushObject(this.get('selectedModule'));
+        this.set('selectedModule',this.get('availableModules')[0]);
       }
     },
   }
