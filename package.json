@@ -48,6 +48,7 @@
   },
   "private": true,
   "dependencies": {
-    "ember-template-compiler": "^1.9.0-alpha"
+    "ember-template-compiler": "^1.9.0-alpha",
+    "js-beautify": "^1.6.12"
   }
 }

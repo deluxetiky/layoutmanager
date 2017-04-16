@@ -1,11 +1,16 @@
 import Ember from 'ember';
-
+import jsbeautifier from 'npm:js-beautify';
 export default Ember.Component.extend({
   classNameBindings: ['propertyA'],
   propertyA: 'layout-wrapper',
   lastSelectedElement: {},
   current: {},
   selectedModules: [],
+  schema: Ember.computed('htmlContent', function () {
+    return {
+      htmlContent: this.get('htmlContent')
+    }
+  }),
   availableModules: Ember.computed('selectedModules.[]', 'modules.[]', function () {
     let modules = this.get('modules');
     return modules.filter((val, index) => {
@@ -20,6 +25,7 @@ export default Ember.Component.extend({
     mainview.addClass('selectedUi');
     this.set('lastSelectedElement', mainview);
     mainview.click((e) => this.uiSelectionClick(e));
+    hljs.initHighlightingOnLoad();
   },
   uiSelectionClick(e) {
     let target = $(e.target);
@@ -63,7 +69,32 @@ export default Ember.Component.extend({
         })
       }
     }
+    this.updateHtmlContent();
 
+  },
+  updateHtmlContent() {
+    var content = $('.main-view').html();
+    let beautifyContent = jsbeautifier.html(content, {
+        "indent_size": 4,
+        "html": {
+          "end_with_newline": true,
+          "js": {
+            "indent_size": 2
+          },
+          "css": {
+            "indent_size": 2
+          }
+        }
+      });
+    this.set('htmlContent', beautifyContent);
+    
+    hljs.configure({
+      useBR: true
+    });
+    let htmlArea = $('.code');
+    htmlArea.each((i, block) => {     
+      hljs.highlightBlock(block);
+    });
   },
   actions: {
     addToView() {
@@ -94,6 +125,7 @@ export default Ember.Component.extend({
       } else {
         this.appendToLayout(toBeAdded, sel);
       }
+      this.updateHtmlContent();
     },
     addModuleToLayout() {
       let sel = $(this.get('lastSelectedElement'));
@@ -119,6 +151,7 @@ export default Ember.Component.extend({
         }
 
       }
+      this.updateHtmlContent();
     },
   }
 });
