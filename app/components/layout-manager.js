@@ -19,19 +19,22 @@ export default Ember.Component.extend({
     var mainview = $(".layout-wrapper .main-view").first();
     mainview.addClass('selectedUi');
     this.set('lastSelectedElement', mainview);
-        mainview.click((e) => {
-      let target = $(e.target);
-      $('.layout-wrapper .added-component').removeClass('selectedUi'); //clear other selectedUi class
+    mainview.click((e)=>this.uiSelectionClick(e));
+  },
+  uiSelectionClick(e){
+      let target = $(e.target);     
       this.toggleAppereance(target);
-      //   console.log(target.find('.added-component').length);
-      this.set('lastSelectedElement', target);
-    });
-
   },
   toggleAppereance(target) {
+     $('.layout-wrapper .added-component').removeClass('selectedUi'); //clear other selectedUi class
     if (target.hasClass('added-component')) {
       $(target).toggleClass('selectedUi');
     }
+    let upParent = target.parents().eq(0);
+    if(upParent.hasClass('added-component')){
+      upParent.toggleClass('selectedUi');
+    }
+    this.set('lastSelectedElement', target);
   },
   appendToLayout(toBeAdded,view){
     console.log(view);
@@ -96,6 +99,7 @@ export default Ember.Component.extend({
       }    
       else{
         let module = $('<div><div>').attr('moduleId',this.get('selectedModule.id')).addClass('added-module').html(this.get('selectedModule.moduleName'));
+        module.click((e)=>this.uiSelectionClick(e));
         sel.append(module);
         this.get('selectedModules').pushObject(this.get('selectedModule'));
         this.set('selectedModule',this.get('availableModules')[0]);
