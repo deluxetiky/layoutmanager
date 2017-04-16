@@ -24,6 +24,7 @@ export default Ember.Component.extend({
   uiSelectionClick(e) {
     let target = $(e.target);
     this.toggleAppereance(target);
+    this.set('lastSelectedElement', target);
   },
   toggleAppereance(target) {
     $('.layout-wrapper .added-component').removeClass('selectedUi'); //clear other selectedUi class
@@ -35,7 +36,7 @@ export default Ember.Component.extend({
         upParent.toggleClass('selectedUi');
       }
     }
-    this.set('lastSelectedElement', target);
+   
   },
   appendToLayout(toBeAdded, view) {
     console.log(view);
@@ -46,7 +47,15 @@ export default Ember.Component.extend({
       view.append(toBeAdded);
     }
   },
-
+  removeLayout(e){
+      let parants = $(e.target).parents();
+        parants.eq(2).toggleClass('selectedUi');
+        let toBeRemoved = parants.eq(1);
+        if (!toBeRemoved.hasClass('main-view')) {
+          toBeRemoved.remove();
+        }
+        
+  },
   actions: {
     addToView() {
       let sel = $(this.get('lastSelectedElement'));
@@ -62,16 +71,7 @@ export default Ember.Component.extend({
         $(this).find('.close-component').first().addClass('hidden');
       };
       toBeAdded.hover(hoverIn, hoverOut);
-      closeBar.click((e) => {
-        //   console.log('Kapat');
-        let parants = $(e.target).parents();
-        parants.eq(2).toggleClass('selectedUi');
-        let toBeRemoved = parants.eq(1);
-        if (!toBeRemoved.hasClass('main-view')) {
-          toBeRemoved.remove();
-        }
-
-      });
+      closeBar.click((e) => this.removeLayout(e));
       toBeAdded.append(closeBar);
       if (cur.isRow) {
         var row = $('<div></div>').addClass('row panel panel-default added-component asrow');
@@ -98,7 +98,10 @@ export default Ember.Component.extend({
       } else if (sel.hasClass('main-view')) {
         console.log('Lütfen en az bir katman ekleyin');
       } else {
-        let module = $('<div><div>').attr('moduleId', this.get('selectedModule.id')).addClass('added-module').html(this.get('selectedModule.moduleName'));
+        let module = $('<div><div>')
+        .attr('domModuleId', this.get('selectedModule.id'))
+        .addClass('added-module')
+        .html(this.get('selectedModule.moduleName'));
         module.click((e) => this.uiSelectionClick(e));
         sel.append(module);
         this.get('selectedModules').pushObject(this.get('selectedModule'));
