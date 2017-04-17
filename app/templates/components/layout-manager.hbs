@@ -7,9 +7,7 @@
         <form class="">
           <legend>Taslak Sihirbazı</legend>
 
-          <div class="form-group">
-            <label for="">Size</label> {{input class="form-control" value=current.size}}
-          </div>
+          
           <div class="form-inline">
             <div class="form-group">
               <label for="">Satır Olarak Ekle</label> {{input type="checkbox" name="isRow" class="form-control" checked=current.isRow}}
@@ -21,7 +19,13 @@
             </div>
             {{/if}}
           </div>
-
+          {{#if sizeSelectionEnabled}}
+           <div class="form-group">
+            <label for="">Size</label> 
+             {{#power-select class="form-control" options=availableSizes renderInPlace=true selected=current.size onchange=(action
+            (mut current.size)) as |size| }} {{size}} {{/power-select}}
+          </div>
+          {{/if}}         
           <div class="form-group">
             <div >
               {{#radio-button class="form-control" value='after' groupValue=layoutPlacement }} Seçili Alan Ardına Ekle {{/radio-button}}
