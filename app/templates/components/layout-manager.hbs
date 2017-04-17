@@ -5,8 +5,27 @@
         <span>Size</span> {{input value=current.size}}
         <span>Modul Adı</span> {{input value=current.name}}
         <span>Satır Olarak Ekle</span> {{input type="checkbox" name="isRow" checked=current.isRow}} {{#if current.isRow}}
-        <span>Geniş İçerik Olarak Ekle(Fluid)</span> {{input type="checkbox" name="isFluid" checked=current.isFluid}} {{/if}}
-        <button {{action 'addToView'}}>Seçili Alana Ekle</button>
+        <span>Geniş İçerik Olarak Ekle(Fluid)</span> {{input type="checkbox" name="isFluid" checked=current.isFluid}} {{/if}}<br>
+        {{#radio-button
+    value='after'
+    groupValue=layoutPlacement
+    }}
+    Seçili Alan Ardına Ekle
+{{/radio-button}}
+{{#radio-button
+    value='before'
+    groupValue=layoutPlacement
+    }}
+    Seçili Alan Öncesine Ekle
+{{/radio-button}}
+{{#radio-button
+    value='absolute'
+    groupValue=layoutPlacement
+    }}
+    Seçili Alana Ekle
+{{/radio-button}}
+<br/>
+         <button {{action 'addToView'}}> Ekle</button>
         {{#power-select
   options=availableModules
   renderInPlace=true
