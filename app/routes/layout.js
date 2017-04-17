@@ -1,8 +1,11 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+    mockdata:Ember.inject.service('mock-data'),
     model(){
+        let layoutModel = this.get('mockdata.layoutModel');
         return {
+            layout:layoutModel,
             modules:[
                 {
                     id:'ASDF2',

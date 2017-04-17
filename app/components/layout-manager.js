@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import jsbeautifier from 'npm:js-beautify';
-export default Ember.Component.extend({
+export default Ember.Component.extend({  
   classNameBindings: ['propertyA'],
   propertyA: 'layout-wrapper',
   layoutPlacement: 'absolute',
@@ -12,9 +12,12 @@ export default Ember.Component.extend({
     customClass:''
   },
   selectedModules: [],
-  schema: Ember.computed('htmlContent', function () {
+  schema: Ember.computed('htmlContent','editHtmlContent','selectedModules', function () {
     return {
-      htmlContent: this.get('htmlContent')
+      htmlContent: this.get('htmlContent'),
+      editHtmlContent:this.get('editHtmlContent'),
+      selectedModules:this.get('selectedModules'),
+      lastEditedTime:new Date(),
     }
   }),
   availableSizes:['0','1','2','3','4','5','6','7','8','9','10','11','12'],
@@ -44,6 +47,7 @@ export default Ember.Component.extend({
     htmlArea.each((i, block) => {
       hljs.highlightBlock(block);
     });
+    
   },
   uiSelectionClick(e) {
     let target = $(e.target);
@@ -123,7 +127,7 @@ export default Ember.Component.extend({
     allDivs.each((index, val) => {
       $(val).removeClass('panel panel-default asrow selectedUi added-component added-module component-hover');
       $(val).attr('class', $(val).attr('class').replace(/\bcol-sm--*?\b/g, 'span')); //span in my theme     
-
+     
 
     });
     let beautifyContent = jsbeautifier.html(dupLication.html(), {
@@ -139,7 +143,8 @@ export default Ember.Component.extend({
       }
     });
     this.set('htmlContent', beautifyContent);
-
+    this.set('editHtmlContent',$('.main-view').html());
+    this.get('schemaChanged')(this.get('schema'));
    
   },
   actions: {
