@@ -1,30 +1,30 @@
 import Ember from 'ember';
 import jsbeautifier from 'npm:js-beautify';
-export default Ember.Component.extend({  
+export default Ember.Component.extend({
   classNameBindings: ['propertyA'],
   propertyA: 'layout-wrapper',
   layoutPlacement: 'absolute',
   lastSelectedElement: {},
   current: {
-    customCssProperties:[],
-    isAdvanced:false,
-    isRow:true,
-    customClass:''
+    customCssProperties: [],
+    isAdvanced: false,
+    isRow: true,
+    customClass: ''
   },
   selectedModules: [],
-  schema: Ember.computed('htmlContent','editHtmlContent','selectedModules', function () {
+  schema: Ember.computed('htmlContent', 'editHtmlContent', 'selectedModules', function () {
     return {
       htmlContent: this.get('htmlContent'),
-      editHtmlContent:this.get('editHtmlContent'),
-      selectedModules:this.get('selectedModules'),
-      lastEditedTime:new Date(),
+      editHtmlContent: this.get('editHtmlContent'),
+      selectedModules: this.get('selectedModules'),
+      lastEditedTime: new Date(),
     }
   }),
-  availableSizes:['0','1','2','3','4','5','6','7','8','9','10','11','12'],
-  clearEnabled:Ember.computed('current.customCssProperties.[]','current.isAdvanced',function(){
-    return this.get('current.customCssProperties.length')>0 && this.get('current.isAdvanced');
+  availableSizes: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+  clearEnabled: Ember.computed('current.customCssProperties.[]', 'current.isAdvanced', function () {
+    return this.get('current.customCssProperties.length') > 0 && this.get('current.isAdvanced');
   }),
-  sizeSelectionEnabled:Ember.computed.equal('current.isRow',false),
+  sizeSelectionEnabled: Ember.computed.equal('current.isRow', false),
   availableModules: Ember.computed('selectedModules.[]', 'modules.[]', function () {
     let modules = this.get('modules');
     return modules.filter((val, index) => {
@@ -33,14 +33,13 @@ export default Ember.Component.extend({
       return !isAny;
     })
   }),
-  init(){
+  init() {
     this._super(...arguments);
-    console.log('initing');
-    let givenModules = this.get('schemaDefault.selectedModules').map((value)=>{
+    let givenModules = this.get('schemaDefault.selectedModules').map((value) => {
       return value;
-    });//to clone object.
-    console.log(givenModules);
-    this.set('selectedModules',givenModules);
+    }); //to clone object.
+    this.set('selectedModules', givenModules);
+    this.set('selectedModule',this.get('availableModules')[0]);
   },
   didInsertElement() {
     this._super(...arguments);
@@ -49,21 +48,21 @@ export default Ember.Component.extend({
     this.set('lastSelectedElement', mainview);
     mainview.click((e) => this.uiSelectionClick(e));
     hljs.initHighlightingOnLoad();
-     hljs.configure({
+    hljs.configure({
       useBR: true
     });
     let htmlArea = $('.code');
     htmlArea.each((i, block) => {
       hljs.highlightBlock(block);
-    });    
-    mainview.html(this.get('schemaDefault.editHtmlContent'));
-    
+    });
+    mainview.html(this.get('schemaDefault.editHtmlContent'));   
+    this.bindDomActions();
+    this.updateHtmlContent();
   },
 
   uiSelectionClick(e) {
     let target = $(e.target);
     this.toggleAppereance(target);
-
   },
   toggleAppereance(target) {
     $('.layout-wrapper .added-component').removeClass('selectedUi'); //clear other selectedUi class
@@ -81,8 +80,8 @@ export default Ember.Component.extend({
   },
   appendToLayout(toBeAdded, view) {
     let placement = this.get('layoutPlacement');
-    this.current.customCssProperties.forEach((element)=> {
-      toBeAdded.css(element.key,element.value);
+    this.current.customCssProperties.forEach((element) => {
+      toBeAdded.css(element.key, element.value);
     });
 
     toBeAdded.addClass(this.get('current.customClass'));
@@ -93,7 +92,7 @@ export default Ember.Component.extend({
       } else if (placement === 'before') {
         view.before(toBeAdded);
       }
-    } else {//position absolute
+    } else { //position absolute
       let len = view.children('div .added-module').length;
       if (len > 0) {
         console.log('Modul seviyesinde katman eklenemez.');
@@ -138,7 +137,7 @@ export default Ember.Component.extend({
     allDivs.each((index, val) => {
       $(val).removeClass('panel panel-default asrow selectedUi added-component added-module component-hover');
       $(val).attr('class', $(val).attr('class').replace(/\bcol-sm--*?\b/g, 'span')); //span in my theme     
-     
+
 
     });
     let beautifyContent = jsbeautifier.html(dupLication.html(), {
@@ -154,9 +153,23 @@ export default Ember.Component.extend({
       }
     });
     this.set('htmlContent', beautifyContent);
-    this.set('editHtmlContent',$('.main-view').html());
+    this.set('editHtmlContent', $('.main-view').html());
     this.get('schemaChanged')(this.get('schema'));
-   
+
+  },
+  bindDomActions() {
+    let hoverIn = function () {
+      $(this).addClass('component-hover');
+      $(this).find('.close-component').first().removeClass('hidden');
+    };
+    let hoverOut = function () {
+      $(this).removeClass('component-hover');
+      $(this).find('.close-component').first().addClass('hidden');
+    };
+    $('.main-view > .added-component .container-fluid').hover(hoverIn, hoverOut);
+    $('.added-component > .close-component').click((e) => this.removeLayout(e));
+    $('.main-view > .asrow').hover(hoverIn, hoverOut);
+    //$('.main-view > .container-fluid').hover(hoverIn,hoverOut);
   },
   actions: {
     addToView() {
@@ -164,26 +177,19 @@ export default Ember.Component.extend({
       let cur = this.get('current');
       let toBeAdded = $('<div class="col-sm-' + cur.size + ' panel panel-default added-component"></div>');
       let closeBar = $('<div><i class="fa fa-times"></i></div>').addClass('close-component hidden');
-      let hoverIn = function () {
-        $(this).addClass('component-hover');
-        $(this).find('.close-component').first().removeClass('hidden');
-      };
-      let hoverOut = function () {
-        $(this).removeClass('component-hover');
-        $(this).find('.close-component').first().addClass('hidden');
-      };
-      toBeAdded.hover(hoverIn, hoverOut);
-      closeBar.click((e) => this.removeLayout(e));
+
+      //  toBeAdded.hover(hoverIn, hoverOut);
+      //  closeBar.click((e) => this.removeLayout(e));
       toBeAdded.append(closeBar);
       if (cur.isRow) {
         var row = $('<div></div>').addClass('row panel panel-default added-component asrow');
         row.append(closeBar);
-        row.hover(hoverIn, hoverOut);
+        //  row.hover(hoverIn, hoverOut);
         if (cur.isFluid) {
           row.addClass('rowfluid');
           let containerFluid = $('<div></div>').addClass('container-fluid panel panel-default added-component asrow');
           containerFluid.append(closeBar);
-          containerFluid.hover(hoverIn, hoverOut);
+          //   containerFluid.hover(hoverIn, hoverOut);
           this.appendToLayout(containerFluid, sel);
         } else {
           this.appendToLayout(row, sel);
@@ -191,13 +197,13 @@ export default Ember.Component.extend({
       } else {
         this.appendToLayout(toBeAdded, sel);
       }
+      this.bindDomActions();
       this.updateHtmlContent();
     },
     addModuleToLayout() {
       let sel = $(this.get('lastSelectedElement'));
       let countLayout = sel.find('.added-component').length;
-      let countModule = sel.find('.added-module').length;
-      console.log(countLayout);
+      let countModule = sel.find('.added-module').length;    
       if (countLayout > 0) {
         console.log('Ara katman üzerine ekleme yapılamaz.');
       } else if (countModule > 0) {
@@ -219,12 +225,12 @@ export default Ember.Component.extend({
       }
       this.updateHtmlContent();
     },
-    addNewCssProp(){
+    addNewCssProp() {
       this.current.customCssProperties.pushObject({});
     },
-    clearCssProp(){
-      this.set('current.customCssProperties',[]);
-      this.set('current.customClass','');
+    clearCssProp() {
+      this.set('current.customCssProperties', []);
+      this.set('current.customClass', '');
     }
   }
 });

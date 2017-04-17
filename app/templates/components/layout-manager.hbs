@@ -68,7 +68,7 @@
           <legend>Modul</legend>
 
           <div class="form-group">
-            {{#power-select class="form-control" options=availableModules renderInPlace=true selected=selectedModule onchange=(action
+            {{#power-select class="form-control" options=availableModules noMatchesMessage="Tüm moduller kullanımda yada sistemde tanımlı modul mevcut değil." renderInPlace=true selected=selectedModule onchange=(action
             (mut selectedModule)) as |selectedModule| }} {{selectedModule.moduleName}} {{/power-select}}
 
           </div>
