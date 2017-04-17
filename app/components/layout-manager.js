@@ -38,7 +38,7 @@ export default Ember.Component.extend({
     console.log('initing');
     let givenModules = this.get('schemaDefault.selectedModules').map((value)=>{
       return value;
-    });
+    });//to clone object.
     console.log(givenModules);
     this.set('selectedModules',givenModules);
   },

@@ -1,9 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+    mockdata:Ember.inject.service('mock-data'),
     actions:{
         schemaChanged(data){
-           // console.log(data);
+           this.get('mockdata').set('layoutModel',data);
         }
     }
 });
