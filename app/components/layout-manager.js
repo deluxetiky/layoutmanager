@@ -3,7 +3,7 @@ import jsbeautifier from 'npm:js-beautify';
 export default Ember.Component.extend({
   classNameBindings: ['propertyA'],
   propertyA: 'layout-wrapper',
-  layoutPlacement:'absolute',
+  layoutPlacement: 'absolute',
   lastSelectedElement: {},
   current: {},
   selectedModules: [],
@@ -48,24 +48,27 @@ export default Ember.Component.extend({
 
   },
   appendToLayout(toBeAdded, view) {
-    let len = view.children('div .added-module').length;
-    if (len > 0) {
-      console.log('Modul seviyesinde katman eklenemez.');
-    } else {
-      if(view.hasClass('main-view')){
-         view.append(toBeAdded);
-      }else{
-        let placement = this.get('layoutPlacement');
-        if(placement==='after'){
-          view.after(toBeAdded);
-        }else if(placement==='before'){
-          view.before(toBeAdded);
-        }else{
+    let placement = this.get('layoutPlacement');
+    if (placement === 'before' || placement === 'after') {
+
+      if (placement === 'after') {
+        view.after(toBeAdded);
+      } else if (placement === 'before') {
+        view.before(toBeAdded);
+      }
+    } else {//position absolute
+      let len = view.children('div .added-module').length;
+      if (len > 0) {
+        console.log('Modul seviyesinde katman eklenemez.');
+      } else {
+        if (view.hasClass('main-view')) {
+          view.append(toBeAdded);
+        } else {
           view.append(toBeAdded);
         }
       }
-     
     }
+
   },
   removeLayout(e) {
     let parants = $(e.target).parents();
@@ -148,7 +151,7 @@ export default Ember.Component.extend({
           row.addClass('rowfluid');
           let containerFluid = $('<div></div>').addClass('container-fluid panel panel-default added-component asrow');
           containerFluid.append(closeBar);
-          containerFluid.hover(hoverIn,hoverOut);         
+          containerFluid.hover(hoverIn, hoverOut);
           this.appendToLayout(containerFluid, sel);
         } else {
           this.appendToLayout(row, sel);
