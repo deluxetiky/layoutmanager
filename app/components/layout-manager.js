@@ -167,10 +167,9 @@ export default Ember.Component.extend({
       $(this).removeClass('component-hover');
       $(this).find('.close-component').first().addClass('hidden');
     };
-    $('.main-view > .added-component .container-fluid').hover(hoverIn, hoverOut);
-    $('.added-component > .close-component').click((e) => this.removeLayout(e));
-    $('.main-view > .asrow').hover(hoverIn, hoverOut);
-    //$('.main-view > .container-fluid').hover(hoverIn,hoverOut);
+    let hovers = $('.main-view .added-component ,.main-view .container-fluid,.main-view .asrow');    
+    hovers.hover(hoverIn, hoverOut);
+    $('.added-component .close-component').click((e) => this.removeLayout(e));   
   },
   actions: {
     addToView() {
