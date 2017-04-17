@@ -46,15 +46,7 @@ export default Ember.Component.extend({
     var mainview = $(".layout-wrapper .main-view").first();
     mainview.addClass('selectedUi');
     this.set('lastSelectedElement', mainview);
-    mainview.click((e) => this.uiSelectionClick(e));
-    hljs.initHighlightingOnLoad();
-    hljs.configure({
-      useBR: true
-    });
-    let htmlArea = $('.code');
-    htmlArea.each((i, block) => {
-      hljs.highlightBlock(block);
-    });
+    mainview.click((e) => this.uiSelectionClick(e));   
     mainview.html(this.get('schemaDefault.editHtmlContent'));   
     this.bindDomActions();
     this.updateHtmlContent();
