@@ -5,6 +5,10 @@ export default Ember.Controller.extend({
     actions:{
         schemaChanged(data){
            this.get('mockdata').set('layoutModel',data);
+        },
+        layoutCallBack(message){
+            console.log(message);
+
         }
     }
 });

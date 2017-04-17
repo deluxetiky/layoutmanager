@@ -95,8 +95,9 @@ export default Ember.Component.extend({
     } else { //position absolute
       let len = view.children('div .added-module').length;
       if (len > 0) {
-        console.log('Modul seviyesinde katman eklenemez.');
-      } else {
+        this.notification('Modul seviyesinde katman eklenemez.');
+      
+    } else {
         if (view.hasClass('main-view')) {
           view.append(toBeAdded);
         } else {
@@ -205,11 +206,11 @@ export default Ember.Component.extend({
       let countLayout = sel.find('.added-component').length;
       let countModule = sel.find('.added-module').length;    
       if (countLayout > 0) {
-        console.log('Ara katman üzerine ekleme yapılamaz.');
+        this.notification('Ara katman üzerine ekleme yapılamaz.');
       } else if (countModule > 0) {
-        console.log('Bir katmana en fazla bir modul eklenebilir.');
+        this.notification('Bir katmana en fazla bir modul eklenebilir.');
       } else if (sel.hasClass('main-view')) {
-        console.log('Lütfen en az bir katman ekleyin');
+        this.notification('Lütfen en az bir katman ekleyin');
       } else {
         if (!Ember.isEmpty(this.get('selectedModule'))) {
           let module = $('<div><div>')
