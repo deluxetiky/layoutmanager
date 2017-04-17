@@ -4,6 +4,8 @@ export default Ember.Route.extend({
     mockdata:Ember.inject.service('mock-data'),
     model(){
         let layoutModel = this.get('mockdata.layoutModel');
+        console.log('Layout controller model loading.\n selected modules:');
+        console.log(layoutModel);
         return {
             layout:layoutModel,
             modules:[

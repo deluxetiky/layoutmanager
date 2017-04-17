@@ -33,6 +33,15 @@ export default Ember.Component.extend({
       return !isAny;
     })
   }),
+  init(){
+    this._super(...arguments);
+    console.log('initing');
+    let givenModules = this.get('schemaDefault.selectedModules').map((value)=>{
+      return value;
+    });
+    console.log(givenModules);
+    this.set('selectedModules',givenModules);
+  },
   didInsertElement() {
     this._super(...arguments);
     var mainview = $(".layout-wrapper .main-view").first();
@@ -46,9 +55,11 @@ export default Ember.Component.extend({
     let htmlArea = $('.code');
     htmlArea.each((i, block) => {
       hljs.highlightBlock(block);
-    });
+    });    
+    mainview.html(this.get('schemaDefault.editHtmlContent'));
     
   },
+
   uiSelectionClick(e) {
     let target = $(e.target);
     this.toggleAppereance(target);
