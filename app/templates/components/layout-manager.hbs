@@ -25,6 +25,21 @@
     Seçili Alana Ekle
 {{/radio-button}}
 <br/>
+<span>Gelişmiş</span> {{input type="checkbox" name="isAdvanced" checked=current.isAdvanced}}<br/>
+{{#if current.isAdvanced}}
+
+  <button {{action 'addNewCssProp'}} >Yeni Css Özellik Ekle</button><br/>
+  {{#each current.customCssProperties as |prop|}}
+{{input value=prop.key}} =
+{{input value=prop.value}} <br/>
+  {{/each}}
+{{#if clearEnabled}}
+ <button {{action 'clearCssProp'}} >Temizle</button><br/>
+{{/if}}
+{{/if}}
+
+
+<br/>
          <button {{action 'addToView'}}> Ekle</button>
         {{#power-select
   options=availableModules

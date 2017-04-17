@@ -5,13 +5,16 @@ export default Ember.Component.extend({
   propertyA: 'layout-wrapper',
   layoutPlacement: 'absolute',
   lastSelectedElement: {},
-  current: {},
+  current: {
+    customCssProperties:[]
+  },
   selectedModules: [],
   schema: Ember.computed('htmlContent', function () {
     return {
       htmlContent: this.get('htmlContent')
     }
   }),
+  clearEnabled:Ember.computed.gt('current.customCssProperties.length',0),
   availableModules: Ember.computed('selectedModules.[]', 'modules.[]', function () {
     let modules = this.get('modules');
     return modules.filter((val, index) => {
@@ -49,6 +52,9 @@ export default Ember.Component.extend({
   },
   appendToLayout(toBeAdded, view) {
     let placement = this.get('layoutPlacement');
+    this.current.customCssProperties.forEach((element)=> {
+      toBeAdded.css(element.key,element.value);
+    });
     if ((placement === 'before' || placement === 'after') && !view.hasClass('main-view')) {
 
       if (placement === 'after') {
@@ -187,5 +193,11 @@ export default Ember.Component.extend({
       }
       this.updateHtmlContent();
     },
+    addNewCssProp(){
+      this.current.customCssProperties.pushObject({});
+    },
+    clearCssProp(){
+      this.set('current.customCssProperties',[]);
+    }
   }
 });
