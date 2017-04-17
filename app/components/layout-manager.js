@@ -30,6 +30,13 @@ export default Ember.Component.extend({
     this.set('lastSelectedElement', mainview);
     mainview.click((e) => this.uiSelectionClick(e));
     hljs.initHighlightingOnLoad();
+     hljs.configure({
+      useBR: true
+    });
+    let htmlArea = $('.code');
+    htmlArea.each((i, block) => {
+      hljs.highlightBlock(block);
+    });
   },
   uiSelectionClick(e) {
     let target = $(e.target);
@@ -124,13 +131,7 @@ export default Ember.Component.extend({
     });
     this.set('htmlContent', beautifyContent);
 
-    hljs.configure({
-      useBR: true
-    });
-    let htmlArea = $('.code');
-    htmlArea.each((i, block) => {
-      hljs.highlightBlock(block);
-    });
+   
   },
   actions: {
     addToView() {

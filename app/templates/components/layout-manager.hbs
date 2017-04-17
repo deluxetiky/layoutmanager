@@ -1,70 +1,88 @@
-<div class="view-outer">
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-sm-3">
+      <div class="layout-controllers">
+
+        <form class="">
+          <legend>Taslak Sihirbazı</legend>
+
+          <div class="form-group">
+            <label for="">Size</label> {{input class="form-control" value=current.size}}
+          </div>
+          <div class="form-inline">
+            <div class="form-group">
+              <label for="">Satır Olarak Ekle</label> {{input type="checkbox" name="isRow" class="form-control" checked=current.isRow}}
+            </div>
+            {{#if current.isRow}}
+            <div class="form-group">
+              <label for="">Geniş İçerik Olarak Ekle(Fluid)</label> {{input type="checkbox" name="isFluid" class="form-control"
+              checked=current.isFluid}}
+            </div>
+            {{/if}}
+          </div>
+
+          <div class="form-group">
+            <div class="form-control">
+              {{#radio-button value='after' groupValue=layoutPlacement }} Seçili Alan Ardına Ekle {{/radio-button}}
+
+            </div>
+            <div class="form-control">
+              {{#radio-button value='before' groupValue=layoutPlacement }} Seçili Alan Öncesine Ekle {{/radio-button}}
+
+            </div>
+            <div class="form-control">
+              {{#radio-button value='absolute' groupValue=layoutPlacement }} Seçili Alana Ekle {{/radio-button}}
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="">Gelişmiş</label> {{input type="checkbox" name="isAdvanced" checked=current.isAdvanced}}
+          </div>
+
+          <div class="form-group form-inline">
+            {{#if current.isAdvanced}}
+
+            <button {{action 'addNewCssProp'}} class="btn btn-primary">Yeni Css Özellik Ekle</button><br/> {{#each current.customCssProperties
+            as |prop|}} {{input class="form-control" value=prop.key}} = {{input class="form-control" value=prop.value}} <br/>            {{/each}} {{#if clearEnabled}}
+            <button {{action 'clearCssProp'}} class="btn btn-info">Temizle</button><br/> {{/if}} {{/if}}
+
+          </div>
 
 
-  <div class="layout-controllers">
+          <div class="form-group">
+            <button {{action 'addToView'}} class="btn btn-primary">Taslağa Ekle</button>
 
-    <form class="">
-      <legend>Taslak Sihirbazı</legend>
+          </div>
 
-      <div class="form-group">
-        <label for="">Size</label> {{input class="form-control" value=current.size}}
+          <legend>Modul</legend>
+
+          <div class="form-group">
+            {{#power-select class="form-control" options=availableModules renderInPlace=true selected=selectedModule onchange=(action
+            (mut selectedModule)) as |selectedModule| }} {{selectedModule.moduleName}} {{/power-select}}
+
+          </div>
+          <div class="form-group">
+            <button {{action 'addModuleToLayout'}} class="btn btn-primary">Seçili Alana Modulu Ekle</button>
+          </div>
+        </form>
       </div>
-      <div class="form-inline">
-        <div class="form-group">
-          <label for="">Satır Olarak Ekle</label> {{input type="checkbox" name="isRow" class="form-control" checked=current.isRow}}
+
+    </div>
+
+    <div class="col-sm-9">
+      <div class="row">
+        <legend>Taslak</legend>
+        <div class="main-view added-component row">
+
         </div>
-        {{#if current.isRow}}
-        <div class="form-group">
-          <label for="">Geniş İçerik Olarak Ekle(Fluid)</label> {{input type="checkbox" name="isFluid" class="form-control"
-          checked=current.isFluid}}
-        </div>
-        {{/if}}
       </div>
+      <div class="row">
 
-      <div class="form-group">
-        {{#radio-button value='after' class="form-control" groupValue=layoutPlacement }} Seçili Alan Ardına Ekle {{/radio-button}}
-        {{#radio-button value='before' groupValue=layoutPlacement }} Seçili Alan Öncesine Ekle {{/radio-button}} {{#radio-button
-        value='absolute' groupValue=layoutPlacement }} Seçili Alana Ekle {{/radio-button}}
-      </div>
-      <div class="form-group">
-        <label for="">Gelişmiş</label> {{input type="checkbox" name="isAdvanced" checked=current.isAdvanced}}
-      </div>
-
-      <div class="form-group form-inline">
-        {{#if current.isAdvanced}}
-
-        <button {{action 'addNewCssProp'}} class="btn btn-primary">Yeni Css Özellik Ekle</button><br/> {{#each current.customCssProperties
-        as |prop|}} {{input class="form-control" value=prop.key}} = {{input class="form-control" value=prop.value}} <br/>        {{/each}} {{#if clearEnabled}}
-        <button {{action 'clearCssProp'}} class="btn btn-info">Temizle</button><br/> {{/if}} {{/if}}
-
-      </div>
-
-
-      <div class="form-group">
-        <button {{action 'addToView'}} class="btn btn-primary">Taslağa Ekle</button>
-
-      </div>
-
-      <legend>Modul</legend>
-
-      <div class="form-group">
-        {{#power-select class="form-control" options=availableModules renderInPlace=true selected=selectedModule onchange=(action
-        (mut selectedModule)) as |selectedModule| }} {{selectedModule.moduleName}} {{/power-select}}
-
-      </div>
-      <div class="form-group">
-        <button {{action 'addModuleToLayout'}} class="btn btn-primary">Seçili Alana Modulu Ekle</button>
-      </div>
-    </form>
-  </div>
-
-
-  <div class="main-view added-component row">
-
-  </div>
-
-  <textarea rows="20" cols="100" class="code" value={{schema.htmlContent}}>
+        <textarea rows="20" cols="100" class="code" value={{schema.htmlContent}}>
 
 </textarea>
-
+      </div>
+    </div>
+  </div>
 </div>

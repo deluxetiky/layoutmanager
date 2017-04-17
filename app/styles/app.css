@@ -1,11 +1,6 @@
 
-.view-outer{
-    margin: 20px;
-}
 
-.view-inner{
-    margin-top:20px;
-}
+
 
 
 
@@ -19,7 +14,7 @@
      
 }
 .main-view{
-    min-height: 50px;
+    min-height: 450px;
     border: solid 2px grey;
     border-radius:5px; ;
     padding: 30px;
