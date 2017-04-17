@@ -6,7 +6,8 @@ export default Ember.Component.extend({
   layoutPlacement: 'absolute',
   lastSelectedElement: {},
   current: {
-    customCssProperties:[]
+    customCssProperties:[],
+    isAdvanced:false
   },
   selectedModules: [],
   schema: Ember.computed('htmlContent', function () {
@@ -14,7 +15,9 @@ export default Ember.Component.extend({
       htmlContent: this.get('htmlContent')
     }
   }),
-  clearEnabled:Ember.computed.gt('current.customCssProperties.length',0),
+  clearEnabled:Ember.computed('current.customCssProperties.[]','current.isAdvanced',function(){
+    return this.get('current.customCssProperties.length')>0 && this.get('current.isAdvanced');
+  }),
   availableModules: Ember.computed('selectedModules.[]', 'modules.[]', function () {
     let modules = this.get('modules');
     return modules.filter((val, index) => {

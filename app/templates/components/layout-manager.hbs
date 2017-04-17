@@ -23,30 +23,33 @@
           </div>
 
           <div class="form-group">
-            <div class="form-control">
-              {{#radio-button value='after' groupValue=layoutPlacement }} Seçili Alan Ardına Ekle {{/radio-button}}
+            <div >
+              {{#radio-button class="form-control" value='after' groupValue=layoutPlacement }} Seçili Alan Ardına Ekle {{/radio-button}}
 
             </div>
-            <div class="form-control">
-              {{#radio-button value='before' groupValue=layoutPlacement }} Seçili Alan Öncesine Ekle {{/radio-button}}
+            <div>
+              {{#radio-button  class="form-control" value='before' groupValue=layoutPlacement }} Seçili Alan Öncesine Ekle {{/radio-button}}
 
             </div>
-            <div class="form-control">
-              {{#radio-button value='absolute' groupValue=layoutPlacement }} Seçili Alana Ekle {{/radio-button}}
+            <div >
+              {{#radio-button class="form-control" value='absolute' groupValue=layoutPlacement }} Seçili Alana Ekle {{/radio-button}}
 
             </div>
           </div>
           <div class="form-group">
             <label for="">Gelişmiş</label> {{input type="checkbox" name="isAdvanced" checked=current.isAdvanced}}
+            {{#if clearEnabled}}
+            <button {{action 'clearCssProp'}} class="btn btn-info btn-sm form-control">Temizle</button> {{/if}} 
           </div>
 
           <div class="form-group form-inline">
             {{#if current.isAdvanced}}
 
-            <button {{action 'addNewCssProp'}} class="btn btn-primary">Yeni Css Özellik Ekle</button><br/> {{#each current.customCssProperties
-            as |prop|}} {{input class="form-control" value=prop.key}} = {{input class="form-control" value=prop.value}} <br/>            {{/each}} {{#if clearEnabled}}
-            <button {{action 'clearCssProp'}} class="btn btn-info">Temizle</button><br/> {{/if}} {{/if}}
-
+             {{#each current.customCssProperties
+            as |prop|}} {{input class="form-control input-sm" value=prop.key}} = {{input class="form-control input-sm" value=prop.value}}             {{/each}} 
+             <button {{action 'addNewCssProp'}} class="btn btn-info btn-sm form-control">Yeni Css Özellik Ekle</button>
+            {{/if}}
+           
           </div>
 
 
