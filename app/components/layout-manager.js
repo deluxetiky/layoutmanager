@@ -8,7 +8,8 @@ export default Ember.Component.extend({
   current: {
     customCssProperties:[],
     isAdvanced:false,
-    isRow:true
+    isRow:true,
+    customClass:''
   },
   selectedModules: [],
   schema: Ember.computed('htmlContent', function () {
@@ -68,6 +69,8 @@ export default Ember.Component.extend({
     this.current.customCssProperties.forEach((element)=> {
       toBeAdded.css(element.key,element.value);
     });
+
+    toBeAdded.addClass(this.get('current.customClass'));
     if ((placement === 'before' || placement === 'after') && !view.hasClass('main-view')) {
 
       if (placement === 'after') {
@@ -205,6 +208,7 @@ export default Ember.Component.extend({
     },
     clearCssProp(){
       this.set('current.customCssProperties',[]);
+      this.set('current.customClass','');
     }
   }
 });

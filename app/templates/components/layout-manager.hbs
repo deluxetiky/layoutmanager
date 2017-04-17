@@ -45,9 +45,17 @@
           </div>
 
           <div class="form-group form-inline">
-            {{#if current.isAdvanced}} {{#each current.customCssProperties as |prop|}} {{input class="form-control input-sm" value=prop.key}}
-            = {{input class="form-control input-sm" value=prop.value}} {{/each}}
-            <button {{action 'addNewCssProp'}} class="btn btn-info btn-sm form-control">Yeni Css Özellik Ekle</button> {{/if}}
+           
+            {{#if current.isAdvanced}}
+             <legend>Style Özellikleri</legend>
+             {{#each current.customCssProperties as |prop|}}
+              {{input class="form-control input-sm" value=prop.key}}={{input class="form-control input-sm" value=prop.value}} {{/each}}
+            <button {{action 'addNewCssProp'}} class="btn btn-info btn-sm form-control">Yeni Css Özellik Ekle</button> 
+            <legend>Class Tanımlama</legend>
+            
+            {{input placeholder="clearfix col-lg-12" class="form-control input-sm" value=current.customClass}}
+           
+            {{/if}}
 
           </div>
 
