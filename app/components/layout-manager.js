@@ -49,7 +49,7 @@ export default Ember.Component.extend({
   },
   appendToLayout(toBeAdded, view) {
     let placement = this.get('layoutPlacement');
-    if (placement === 'before' || placement === 'after') {
+    if ((placement === 'before' || placement === 'after') && !view.hasClass('main-view')) {
 
       if (placement === 'after') {
         view.after(toBeAdded);
